@@ -74,3 +74,18 @@ try:
 
 except ValueError as erreur:
     print("Erreur détectée correctement :", erreur)
+
+# 7. Tester une erreur de permission
+from unittest.mock import patch
+
+print("\n=== TEST PERMISSION REFUSÉE ===")
+
+try:
+    with patch(
+        "storage.json_storage.open",
+        side_effect=PermissionError("Accès refusé (test simulé)")
+    ):
+        sauvegarder_json(donnees, chemin_json)
+
+except PermissionError as erreur:
+    print("PermissionError détectée correctement :", erreur)

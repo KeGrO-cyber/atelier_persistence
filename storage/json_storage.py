@@ -3,10 +3,24 @@ import logging
 
 
 def sauvegarder_json(donnees: list[dict], chemin: str) -> None:
-    """Sauvegarde une liste de dictionnaires dans un fichier JSON."""
+    """Sauvegarde des données au format JSON."""
 
-    with open(chemin, "w", encoding="utf-8") as f:
-        json.dump(donnees, f, indent=4, ensure_ascii=False)
+    try:
+        with open(chemin, "w", encoding="utf-8") as f:
+            json.dump(
+                donnees,
+                f,
+                indent=4,
+                ensure_ascii=False
+            )
+
+    except PermissionError as erreur:
+        logging.error(
+            "Permission refusée pour le fichier %s : %s",
+            chemin,
+            erreur
+        )
+        raise
 
 
 def charger_json(chemin: str) -> list[dict]:
